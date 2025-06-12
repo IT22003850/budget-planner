@@ -15,9 +15,15 @@ export const AuthProvider = ({ children }) => {
     const urlToken = urlParams.get('token');
     if (urlToken) {
       console.log('Token found in URL:', urlToken);
-      localStorage.setItem('token', urlToken);
-      navigate(location.pathname, { replace: true });
-      return urlToken;
+      try {
+        localStorage.setItem('token', urlToken);
+        // Clear query params to prevent re-processing
+        navigate('/dashboard', { replace: true });
+        return urlToken;
+      } catch (err) {
+        console.error('Error storing token:', err);
+        return null;
+      }
     }
     const token = localStorage.getItem('token');
     console.log('Token from localStorage:', token);
@@ -29,8 +35,11 @@ export const AuthProvider = ({ children }) => {
       const token = getToken();
       if (!token) {
         console.log('No token found, setting user to null');
-        setLoading(false);
         setUser(null);
+        setLoading(false);
+        if (location.pathname !== '/login' && location.pathname !== '/register') {
+          navigate('/login', { replace: true, state: { error: 'Please log in' } });
+        }
         return;
       }
 
@@ -41,20 +50,21 @@ export const AuthProvider = ({ children }) => {
         });
         console.log('User fetched successfully:', response.data);
         setUser(response.data);
+        if (location.pathname === '/login' || location.pathname === '/register') {
+          navigate('/dashboard', { replace: true });
+        }
       } catch (error) {
         console.error('Failed to fetch user:', error.response?.status, error.response?.data);
         localStorage.removeItem('token');
         setUser(null);
-        if (location.pathname !== '/login') {
-          navigate('/login', { replace: true });
-        }
+        navigate('/login', { replace: true, state: { error: 'Invalid or expired session' } });
       } finally {
         setLoading(false);
       }
     };
 
     fetchUser();
-  }, [location, navigate]);
+  }, [location.pathname, navigate]);
 
   const logout = () => {
     console.log('Logging out user');
@@ -65,8 +75,8 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-  <AuthContext.Provider value={{ user, setUser, loading, logout }}>
-    {children}
-  </AuthContext.Provider> // ✅ Correct closing tag
-);
+    <AuthContext.Provider value={{ user, setUser, loading, logout }}>
+      {children}
+    </AuthContext.Provider>
+  );
 };

@@ -73,37 +73,37 @@ const Profile = () => {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="container mx-auto py-6 px-4"
+      className="container py-10"
     >
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 max-w-lg mx-auto">
-        <h2 className="text-2xl font-bold mb-6 text-center text-gray-900 dark:text-gray-100">Profile</h2>
-        <div className="flex flex-col items-center mb-6">
-          <img src={defaultAvatar} alt="User avatar" className="w-32 h-32 rounded-full mb-4" />
-          <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100">{user.username}</h3>
-          <p className="text-gray-600 dark:text-gray-300">Role: {user.role}</p>
-          {user.googleId && <p className="text-gray-600 dark:text-gray-300">Signed in with Google</p>}
+      <div className="card p-8 max-w-lg mx-auto">
+        <h2 className="text-3xl font-bold mb-8 text-center text-[var(--foreground)]">Profile</h2>
+        <div className="flex flex-col items-center mb-8">
+          <img src={defaultAvatar} alt="User avatar" className="w-32 h-32 rounded-full mb-4 shadow-md" />
+          <h3 className="text-xl font-semibold text-[var(--foreground)]">{user.username}</h3>
+          <p className="text-gray-500 dark:text-gray-400">Role: {user.role}</p>
+          {user.googleId && <p className="text-gray-500 dark:text-gray-400">Signed in with Google</p>}
         </div>
         {!user.googleId && (
-          <form onSubmit={handleSubmit(handleUpdatePassword)} className="space-y-4">
+          <form onSubmit={handleSubmit(handleUpdatePassword)} className="space-y-6">
             <div>
-              <label htmlFor="password" className="block font-medium mb-2 text-gray-700 dark:text-gray-300">
+              <label htmlFor="password" className="block font-medium mb-2 text-[var(--foreground)]">
                 New Password (optional)
               </label>
               <input
                 id="password"
                 type="password"
                 {...register('password')}
-                className="input w-full bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
+                className="input"
                 placeholder="Enter new password"
                 autoComplete="new-password"
               />
-              {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>}
+              {errors.password && <p className="text-[var(--danger)] text-sm mt-1">{errors.password.message}</p>}
             </div>
-            {error && <p className="text-red-500 mb-4">{error}</p>}
-            {success && <p className="text-green-500 mb-4">{success}</p>}
+            {error && <p className="text-[var(--danger)] mb-4">{error}</p>}
+            {success && <p className="text-[var(--success)] mb-4">{success}</p>}
             <button
               type="submit"
-              className="w-full bg-blue-500 text-white rounded-md py-2 hover:bg-blue-600 transition-colors"
+              className="button btn-primary w-full"
             >
               Update Password
             </button>
@@ -111,7 +111,7 @@ const Profile = () => {
         )}
         <button
           onClick={handleDeleteAccount}
-          className="w-full mt-4 bg-red-500 text-white rounded-md py-2 hover:bg-red-600 transition-colors"
+          className="button btn-danger w-full mt-6"
         >
           Delete Account
         </button>

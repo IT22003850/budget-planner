@@ -1,5 +1,5 @@
-import { useAuth } from '../hooks/useAuth';
 import { NavLink, useNavigate } from 'react-router-dom';
+import { useAuth } from '../hooks/useAuth';
 import { motion } from 'framer-motion';
 import ThemeToggle from './ThemeToggle';
 import toast from 'react-hot-toast';
@@ -24,20 +24,20 @@ const Navbar = () => {
     <motion.nav
       initial={{ y: -100 }}
       animate={{ y: 0 }}
-      className="bg-white dark:bg-gray-800 shadow-md py-4"
+      className="bg-white dark:bg-[var(--background)] shadow-lg py-4 sticky top-0 z-50"
     >
       <div className="container mx-auto px-4 flex justify-between items-center">
-        <NavLink to="/dashboard" className="text-xl font-bold text-gray-900 dark:text-gray-100">
+        <NavLink to="/dashboard" className="text-2xl font-bold text-[var(--primary)] dark:text-[var(--primary)]">
           Budget Planner
         </NavLink>
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center space-x-6">
           {user ? (
             <>
               <NavLink
                 to="/dashboard"
                 className={({ isActive }) =>
-                  `px-3 py-2 text-gray-700 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-400 ${
-                    isActive ? 'font-bold text-blue-500 dark:text-blue-400' : ''
+                  `px-4 py-2 text-[var(--foreground)] hover:text-[var(--primary-hover)] transition-colors duration-200 ${
+                    isActive ? 'font-bold text-[var(--primary)]' : ''
                   }`
                 }
               >
@@ -46,8 +46,8 @@ const Navbar = () => {
               <NavLink
                 to="/profile"
                 className={({ isActive }) =>
-                  `px-3 py-2 text-gray-700 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-400 ${
-                    isActive ? 'font-bold text-blue-500 dark:text-blue-400' : ''
+                  `px-4 py-2 text-[var(--foreground)] hover:text-[var(--primary-hover)] transition-colors duration-200 ${
+                    isActive ? 'font-bold text-[var(--primary)]' : ''
                   }`
                 }
               >
@@ -55,7 +55,7 @@ const Navbar = () => {
               </NavLink>
               <button
                 onClick={handleLogout}
-                className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition-colors disabled:opacity-50"
+                className="button btn-danger"
                 disabled={logout.isLoading}
               >
                 {logout.isLoading ? 'Logging out...' : 'Logout'}
@@ -66,8 +66,8 @@ const Navbar = () => {
               <NavLink
                 to="/login"
                 className={({ isActive }) =>
-                  `px-3 py-2 text-gray-700 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-400 ${
-                    isActive ? 'font-bold text-blue-500 dark:text-blue-400' : ''
+                  `px-4 py-2 text-[var(--foreground)] hover:text-[var(--primary-hover)] transition-colors duration-200 ${
+                    isActive ? 'font-bold text-[var(--primary)]' : ''
                   }`
                 }
               >
@@ -76,8 +76,8 @@ const Navbar = () => {
               <NavLink
                 to="/register"
                 className={({ isActive }) =>
-                  `px-3 py-2 text-gray-700 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-400 ${
-                    isActive ? 'font-bold text-blue-500 dark:text-blue-400' : ''
+                  `px-4 py-2 text-[var(--foreground)] hover:text-[var(--primary-hover)] transition-colors duration-200 ${
+                    isActive ? 'font-bold text-[var(--primary)]' : ''
                   }`
                 }
               >

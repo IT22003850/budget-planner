@@ -22,21 +22,19 @@ const Login = () => {
     resolver: zodResolver(schema),
   });
 
-  // Redirect to dashboard if user is authenticated
   useEffect(() => {
-    if (user) {
+    if (user && location.pathname === '/login') {
       console.log('User authenticated, redirecting to /dashboard');
       navigate('/dashboard', { replace: true });
     }
-  }, [user, navigate]);
+  }, [user, navigate, location.pathname]);
 
   const onSubmit = async (data) => {
     console.log('Attempting login with:', data);
     login.mutate(data, {
       onSuccess: () => {
-        console.log('Login successful, showing toast and navigating');
+        console.log('Login successful, showing toast');
         toast.success('Logged in successfully');
-        // Navigation is handled by useEffect above
       },
       onError: (err) => {
         console.error('Login error:', err);
@@ -47,7 +45,6 @@ const Login = () => {
 
   const handleGoogleLogin = () => {
     console.log('Initiating Google login');
-    // Ensure backend redirects back with token in query string
     window.location.href = 'http://localhost:5000/api/auth/google';
   };
 
@@ -55,14 +52,14 @@ const Login = () => {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="container flex justify-center items-center min-h-screen"
+      className="container flex justify-center items-center min-h-screen py-10"
     >
-      <div className="card w-full max-w-md">
-        <h2 className="text-3xl font-bold text-center mb-6">Login</h2>
-        {errorFromRedirect && <p className="text-red-500 text-center mb-4">{errorFromRedirect}</p>}
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="mb-4">
-            <label htmlFor="username" className="block font-medium mb-2">
+      <div className="card p-8 w-full max-w-md">
+        <h2 className="text-3xl font-bold text-center mb-8 text-[var(--foreground)]">Login</h2>
+        {errorFromRedirect && <p className="text-[var(--danger)] text-center mb-6">{errorFromRedirect}</p>}
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+          <div>
+            <label htmlFor="username" className="block font-medium mb-2 text-[var(--foreground)]">
               Username
             </label>
             <input
@@ -72,10 +69,10 @@ const Login = () => {
               placeholder="Enter username"
               autoComplete="username"
             />
-            {errors.username && <p className="text-red-500 text-sm mt-1">{errors.username.message}</p>}
+            {errors.username && <p className="text-[var(--danger)] text-sm mt-1">{errors.username.message}</p>}
           </div>
-          <div className="mb-6">
-            <label htmlFor="password" className="block font-medium mb-2">
+          <div>
+            <label htmlFor="password" className="block font-medium mb-2 text-[var(--foreground)]">
               Password
             </label>
             <input
@@ -86,11 +83,11 @@ const Login = () => {
               placeholder="Enter password"
               autoComplete="current-password"
             />
-            {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>}
+            {errors.password && <p className="text-[var(--danger)] text-sm mt-1">{errors.password.message}</p>}
           </div>
           <button
             type="submit"
-            className="button w-full bg-blue-500 text-white hover:bg-blue-600"
+            className="button btn-primary w-full"
             disabled={login.isLoading}
           >
             {login.isLoading ? 'Logging in...' : 'Login'}
@@ -98,13 +95,13 @@ const Login = () => {
         </form>
         <button
           onClick={handleGoogleLogin}
-          className="button w-full mt-4 bg-red-500 text-white hover:bg-red-600"
+          className="button btn-danger w-full mt-4"
           disabled={login.isLoading}
         >
           Login with Google
         </button>
-        <p className="mt-4 text-center">
-          Don't have an account? <Link to="/register" className="text-blue-500 hover:underline">Register</Link>
+        <p className="mt-6 text-center text-[var(--foreground)]">
+          Don't have an account? <Link to="/register" className="text-[var(--primary)] hover:underline">Register</Link>
         </p>
       </div>
     </motion.div>

@@ -17,10 +17,10 @@ const schema = z.object({
 });
 
 const categoryIcons = {
-  Food: <FaUtensils className="text-blue-500" />,
-  Rent: <FaHome className="text-red-500" />,
-  Utilities: <FaBolt className="text-green-500" />,
-  Entertainment: <FaFilm className="text-yellow-500" />,
+  Food: <FaUtensils className="text-[var(--primary)]" />,
+  Rent: <FaHome className="text-[var(--danger)]" />,
+  Utilities: <FaBolt className="text-[var(--success)]" />,
+  Entertainment: <FaFilm className="text-[var(--warning)]" />,
   Transportation: <FaCar className="text-purple-500" />,
   Other: <FaEllipsisH className="text-gray-500" />,
 };
@@ -56,7 +56,7 @@ const BudgetModal = ({ budget, onSave, onClose }) => {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
+      className="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center z-50"
       role="dialog"
       aria-labelledby="edit-budget-title"
       aria-modal="true"
@@ -64,14 +64,14 @@ const BudgetModal = ({ budget, onSave, onClose }) => {
       <motion.div
         initial={{ scale: 0.8 }}
         animate={{ scale: 1 }}
-        className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 w-full max-w-md"
+        className="card p-8 w-full max-w-md"
       >
-        <h3 id="edit-budget-title" className="text-xl font-bold mb-4 text-gray-900 dark:text-gray-100">
+        <h3 id="edit-budget-title" className="text-2xl font-bold mb-6 text-[var(--foreground)]">
           Edit Budget
         </h3>
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           <div>
-            <label htmlFor="category" className="block font-medium mb-2 text-gray-700 dark:text-gray-300">
+            <label htmlFor="category" className="block font-medium mb-2 text-[var(--foreground)]">
               Category
             </label>
             <div className="relative">
@@ -79,7 +79,7 @@ const BudgetModal = ({ budget, onSave, onClose }) => {
                 id="category"
                 {...register('category')}
                 onChange={(e) => setSelectedCategory(e.target.value)}
-                className="input w-full bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
+                className="input pr-10"
                 autoComplete="off"
                 aria-label="Select category"
               >
@@ -93,10 +93,10 @@ const BudgetModal = ({ budget, onSave, onClose }) => {
                 {categoryIcons[selectedCategory] || null}
               </div>
             </div>
-            {errors.category && <p className="text-red-500 text-sm mt-1">{errors.category.message}</p>}
+            {errors.category && <p className="text-[var(--danger)] text-sm mt-1">{errors.category.message}</p>}
           </div>
           <div>
-            <label htmlFor="amount" className="block font-medium mb-2 text-gray-700 dark:text-gray-300">
+            <label htmlFor="amount" className="block font-medium mb-2 text-[var(--foreground)]">
               Amount
             </label>
             <input
@@ -105,14 +105,14 @@ const BudgetModal = ({ budget, onSave, onClose }) => {
               step="0.01"
               min="0.01"
               {...register('amount', { valueAsNumber: true })}
-              className="input w-full bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
+              className="input"
               autoComplete="off"
               aria-label="Enter amount"
             />
-            {errors.amount && <p className="text-red-500 text-sm mt-1">{errors.amount.message}</p>}
+            {errors.amount && <p className="text-[var(--danger)] text-sm mt-1">{errors.amount.message}</p>}
           </div>
           <div>
-            <label htmlFor="month" className="block font-medium mb-2 text-gray-700 dark:text-gray-300">
+            <label htmlFor="month" className="block font-medium mb-2 text-[var(--foreground)]">
               Month
             </label>
             <DatePicker
@@ -122,7 +122,7 @@ const BudgetModal = ({ budget, onSave, onClose }) => {
                 setMonth(date);
                 setValue('month', date, { shouldValidate: true });
               }}
-              className="input w-full bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
+              className="input"
               dateFormat="MMMM yyyy"
               showMonthYearPicker
               autoComplete="off"
@@ -130,20 +130,20 @@ const BudgetModal = ({ budget, onSave, onClose }) => {
               placeholderText="Select month"
               aria-label="Select month"
             />
-            {errors.month && <p className="text-red-500 text-sm mt-1">{errors.month.message}</p>}
+            {errors.month && <p className="text-[var(--danger)] text-sm mt-1">{errors.month.message}</p>}
           </div>
-          <div className="flex justify-end space-x-2">
+          <div className="flex justify-end space-x-4">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600 transition-colors"
+              className="button btn-secondary"
               aria-label="Cancel"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors"
+              className="button btn-primary"
               aria-label="Save"
             >
               Save

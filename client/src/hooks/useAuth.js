@@ -23,7 +23,7 @@ export const useAuth = () => {
     },
     onError: (err) => {
       console.error('Login mutation error:', err);
-      toast.error(err.response?.data?.message || 'Login failed. Please try again.');
+      toast.error(err.response?.data.message || 'Login failed');
     },
   });
 
@@ -31,15 +31,16 @@ export const useAuth = () => {
     mutationFn: () => {
       console.log('Logout mutation called');
       contextLogout();
-      queryClient.clear();
+      return Promise.resolve();
     },
     onSuccess: () => {
       console.log('Logout mutation success');
+      queryClient.clear();
       toast.success('Logged out successfully');
     },
     onError: () => {
       console.error('Logout mutation error');
-      toast.error('Logout failed. Please try again.');
+      toast.error('Logout failed');
     },
   });
 

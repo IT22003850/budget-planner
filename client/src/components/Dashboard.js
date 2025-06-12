@@ -21,10 +21,10 @@ const Dashboard = () => {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="container mx-auto py-6 px-4"
+      className="container py-10"
     >
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 mb-6">
-        <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-gray-100">Welcome, {user.username}</h2>
+      <div className="card p-8 mb-8">
+        <h2 className="text-3xl font-bold mb-4 text-[var(--foreground)]">Welcome, {user.username}</h2>
       </div>
       <BudgetForm />
       <Analytics />

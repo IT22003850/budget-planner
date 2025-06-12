@@ -10,10 +10,10 @@ import 'react-datepicker/dist/react-datepicker.css';
 import moment from 'moment';
 
 const categoryIcons = {
-  Food: <FaUtensils className="text-blue-500" />,
-  Rent: <FaHome className="text-red-500" />,
-  Utilities: <FaBolt className="text-green-500" />,
-  Entertainment: <FaFilm className="text-yellow-500" />,
+  Food: <FaUtensils className="text-[var(--primary)]" />,
+  Rent: <FaHome className="text-[var(--danger)]" />,
+  Utilities: <FaBolt className="text-[var(--success)]" />,
+  Entertainment: <FaFilm className="text-[var(--warning)]" />,
   Transportation: <FaCar className="text-purple-500" />,
   Other: <FaEllipsisH className="text-gray-500" />,
 };
@@ -65,7 +65,7 @@ const BudgetList = () => {
   if (isBudgetsLoading) return <Spinner />;
   if (isBudgetsError)
     return (
-      <p className="text-red-500 text-center p-4">
+      <p className="text-[var(--danger)] text-center p-6">
         Failed to load budgets: {budgetsError?.response?.data?.message || 'Please try again.'}
       </p>
     );
@@ -74,19 +74,19 @@ const BudgetList = () => {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6"
+      className="card p-8"
     >
-      <h3 className="text-xl font-bold mb-4 text-gray-900 dark:text-gray-100">Your Budgets</h3>
+      <h3 className="text-2xl font-bold mb-6 text-[var(--foreground)]">Your Budgets</h3>
       <div className="mb-6 flex flex-col sm:flex-row sm:space-x-4">
         <div className="mb-4 sm:mb-0 flex-1">
-          <label htmlFor="filterCategory" className="block font-medium mb-2 text-gray-700 dark:text-gray-300">
+          <label htmlFor="filterCategory" className="block font-medium mb-2 text-[var(--foreground)]">
             Filter by Category
           </label>
           <select
             id="filterCategory"
             value={filterCategory}
             onChange={(e) => setFilterCategory(e.target.value)}
-            className="input w-full bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
+            className="input"
             autoComplete="off"
             aria-label="Filter by category"
           >
@@ -99,14 +99,14 @@ const BudgetList = () => {
           </select>
         </div>
         <div className="flex-1">
-          <label htmlFor="filterMonth" className="block font-medium mb-2 text-gray-700 dark:text-gray-300">
+          <label htmlFor="filterMonth" className="block font-medium mb-2 text-[var(--foreground)]">
             Filter by Month
           </label>
           <DatePicker
             id="filterMonth"
             selected={filterMonth}
             onChange={(date) => setFilterMonth(date)}
-            className="input w-full bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
+            className="input"
             dateFormat="MMMM yyyy"
             showMonthYearPicker
             autoComplete="off"
@@ -117,18 +117,18 @@ const BudgetList = () => {
         </div>
       </div>
       {filteredBudgets.length === 0 ? (
-        <p className="text-gray-500 text-center p-4">
+        <p className="text-gray-500 text-center p-6">
           No budgets found. Try adjusting the filters or adding a new budget.
         </p>
       ) : (
         <div className="overflow-x-auto">
-          <table className="w-full border-collapse" aria-label="Budget list">
+          <table className="table" aria-label="Budget list">
             <thead>
-              <tr className="bg-gray-100 dark:bg-gray-700">
-                <th className="p-3 text-left text-gray-900 dark:text-gray-100">Category</th>
-                <th className="p-3 text-left text-gray-900 dark:text-gray-100">Amount</th>
-                <th className="p-3 text-left text-gray-900 dark:text-gray-100">Month</th>
-                <th className="p-3 text-left text-gray-900 dark:text-gray-100">Actions</th>
+              <tr>
+                <th>Category</th>
+                <th>Amount</th>
+                <th>Month</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -137,30 +137,29 @@ const BudgetList = () => {
                   key={budget._id}
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  className="border-t border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700"
                 >
-                  <td className="p-3 flex items-center space-x-2">
+                  <td className="flex items-center space-x-2">
                     {categoryIcons[budget.category]}
                     <span>{budget.category}</span>
                   </td>
-                  <td className="p-3">${budget.amount.toFixed(2)}</td>
-                  <td className="p-3">{budget.month}</td>
-                  <td className="p-3 flex space-x-2">
+                  <td>${budget.amount.toFixed(2)}</td>
+                  <td>{budget.month}</td>
+                  <td className="flex space-x-2">
                     <button
                       onClick={() => handleEdit(budget)}
-                      className="inline-flex items-center px-3 py-1 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors disabled:opacity-50"
+                      className="button btn-primary flex items-center space-x-1"
                       disabled={updateBudget.isLoading}
                       aria-label={`Edit ${budget.category} budget for ${budget.month}`}
                     >
-                      <FaEdit className="mr-1" /> {updateBudget.isLoading ? 'Editing...' : 'Edit'}
+                      <FaEdit /> <span>{updateBudget.isLoading ? 'Editing...' : 'Edit'}</span>
                     </button>
                     <button
                       onClick={() => handleDelete(budget._id)}
-                      className="inline-flex items-center px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600 transition-colors disabled:opacity-50"
+                      className="button btn-danger flex items-center space-x-1"
                       disabled={deleteBudget.isLoading}
                       aria-label={`Delete ${budget.category} budget for ${budget.month}`}
                     >
-                      <FaTrash className="mr-1" /> {deleteBudget.isLoading ? 'Deleting...' : 'Delete'}
+                      <FaTrash /> <span>{deleteBudget.isLoading ? 'Deleting...' : 'Delete'}</span>
                     </button>
                   </td>
                 </motion.tr>

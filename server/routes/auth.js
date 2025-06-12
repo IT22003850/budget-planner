@@ -48,10 +48,24 @@ router.post('/login', async (req, res) => {
 
 router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 
-router.get('/google/callback', passport.authenticate('google', { session: false }), (req, res) => {
-  const token = jwt.sign({ id: req.user._id, role: req.user.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
-  res.redirect(`http://localhost:3000/dashboard?token=${token}`);
-});
+router.get('/google/callback', 
+  passport.authenticate('google', { session: false, failureRedirect: 'http://localhost:3000/login?error=Google%20login%20failed' }),
+  (req, res) => {
+    try {
+      console.log('Google callback - User:', req.user);
+      const token = jwt.sign(
+        { id: req.user._id, role: req.user.role },
+        process.env.JWT_SECRET,
+        { expiresIn: '1h' }
+      );
+      console.log('Google callback - Token generated for user:', req.user._id);
+      res.redirect(`http://localhost:3000/dashboard?token=${token}`);
+    } catch (err) {
+      console.error('Google callback error:', err.message, err.stack);
+      res.redirect(`http://localhost:3000/login?error=${encodeURIComponent('Server error during Google login')}`);
+    }
+  }
+);
 
 router.get('/me', auth, async (req, res) => {
   try {

@@ -19,10 +19,10 @@ const schema = z.object({
 });
 
 const categoryIcons = {
-  Food: <FaUtensils className="text-blue-500" />,
-  Rent: <FaHome className="text-red-500" />,
-  Utilities: <FaBolt className="text-green-500" />,
-  Entertainment: <FaFilm className="text-yellow-500" />,
+  Food: <FaUtensils className="text-[var(--primary)]" />,
+  Rent: <FaHome className="text-[var(--danger)]" />,
+  Utilities: <FaBolt className="text-[var(--success)]" />,
+  Entertainment: <FaFilm className="text-[var(--warning)]" />,
   Transportation: <FaCar className="text-purple-500" />,
   Other: <FaEllipsisH className="text-gray-500" />,
 };
@@ -66,12 +66,12 @@ const BudgetForm = () => {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 mb-6"
+      className="card p-8 mb-8"
     >
-      <h3 className="text-xl font-bold mb-4 text-gray-900 dark:text-gray-100">Add Budget</h3>
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+      <h3 className="text-2xl font-bold mb-6 text-[var(--foreground)]">Add Budget</h3>
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         <div>
-          <label htmlFor="category" className="block font-medium mb-2 text-gray-700 dark:text-gray-300">
+          <label htmlFor="category" className="block font-medium mb-2 text-[var(--foreground)]">
             Category
           </label>
           <div className="relative">
@@ -79,7 +79,7 @@ const BudgetForm = () => {
               id="category"
               {...register('category')}
               onChange={(e) => setSelectedCategory(e.target.value)}
-              className="input w-full bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
+              className="input pr-10"
               autoComplete="off"
             >
               <option value="" disabled>
@@ -95,10 +95,10 @@ const BudgetForm = () => {
               {categoryIcons[selectedCategory] || null}
             </div>
           </div>
-          {errors.category && <p className="text-red-500 text-sm mt-1">{errors.category.message}</p>}
+          {errors.category && <p className="text-[var(--danger)] text-sm mt-1">{errors.category.message}</p>}
         </div>
         <div>
-          <label htmlFor="amount" className="block font-medium mb-2 text-gray-700 dark:text-gray-300">
+          <label htmlFor="amount" className="block font-medium mb-2 text-[var(--foreground)]">
             Amount
           </label>
           <input
@@ -107,14 +107,14 @@ const BudgetForm = () => {
             step="0.01"
             min="0.01"
             {...register('amount', { valueAsNumber: true })}
-            className="input w-full bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
+            className="input"
             placeholder="Enter amount"
             autoComplete="off"
           />
-          {errors.amount && <p className="text-red-500 text-sm mt-1">{errors.amount.message}</p>}
+          {errors.amount && <p className="text-[var(--danger)] text-sm mt-1">{errors.amount.message}</p>}
         </div>
         <div>
-          <label htmlFor="month" className="block font-medium mb-2 text-gray-700 dark:text-gray-300">
+          <label htmlFor="month" className="block font-medium mb-2 text-[var(--foreground)]">
             Month
           </label>
           <DatePicker
@@ -124,18 +124,18 @@ const BudgetForm = () => {
               setMonth(date);
               setValue('month', date, { shouldValidate: true });
             }}
-            className="input w-full bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
+            className="input"
             dateFormat="MMMM yyyy"
             showMonthYearPicker
             autoComplete="off"
             isClearable
             placeholderText="Select month"
           />
-          {errors.month && <p className="text-red-500 text-sm mt-1">{errors.month.message}</p>}
+          {errors.month && <p className="text-[var(--danger)] text-sm mt-1">{errors.month.message}</p>}
         </div>
         <button
           type="submit"
-          className="w-full bg-blue-500 text-white rounded-md py-2 hover:bg-blue-600 transition-colors disabled:opacity-50"
+          className="button btn-primary w-full"
           disabled={addBudget.isLoading}
         >
           {addBudget.isLoading ? 'Adding...' : 'Add Budget'}
