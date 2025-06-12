@@ -1,0 +1,37 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Date picker custom styles */
+.react-datepicker {
+  @apply bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md shadow-lg;
+}
+.react-datepicker__header {
+  @apply bg-gray-100 dark:bg-gray-600 border-b border-gray-300 dark:border-gray-500;
+}
+.react-datepicker__month-year-read-view--down-arrow,
+.react-datepicker__month-year-option {
+  @apply text-gray-900 dark:text-gray-100;
+}
+.react-datepicker__month-year-option:hover {
+  @apply bg-gray-200 dark:bg-gray-500;
+}
+.react-datepicker__month-year--selected {
+  @apply bg-blue-500 text-white;
+}
+
+body {
+  @apply bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100;
+}
+
+.container {
+  @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+}
+
+.card {
+  @apply bg-white dark:bg-gray-800 rounded-lg shadow-lg;
+}
+
+.input {
+  @apply block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500;
+}
